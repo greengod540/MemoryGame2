@@ -1,5 +1,6 @@
 #include "Presenter.h"
 #include "World.h"
+#include "defines.h"
 
 extern World world;
 
@@ -10,14 +11,16 @@ int Presenter::m_SCREEN_HEIGHT = 0;
 
 void Presenter::init()
 {
-	m_SCREEN_WIDTH = 1539;
-	m_SCREEN_HEIGHT = 864;
+	
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 	
 	m_mainWindow = SDL_CreateWindow("SDL_Template",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1366, 768, 0);
 
+	
+	SDL_GetWindowSize(m_mainWindow, &m_SCREEN_WIDTH, &m_SCREEN_HEIGHT);
+	std::cout << "Window Size: " << m_SCREEN_WIDTH << " " << m_SCREEN_WIDTH;
 	m_mainRenderer = SDL_CreateRenderer(m_mainWindow, -1, SDL_RENDERER_PRESENTVSYNC);
 
 	improveRenderer();

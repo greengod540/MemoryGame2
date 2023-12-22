@@ -387,8 +387,6 @@ void Board::handleInput()
 	SDL_GetGlobalMouseState(&mouseX, &mouseY);
 
 
-	std::cout << "MouseCoords: (" << mouseX << "," << mouseY << ")" << std::endl;
-
 
 
 	if(isMouseInRect(InputManager::m_mouseCoor, Yes.rect) && InputManager::isMousePressed() && reset == true) {
@@ -434,7 +432,6 @@ void Board::handleInput()
 
 		SDL_GetGlobalMouseState(&mouseX1, &mouseY1);
 
-		std::cout << "MouseCoords: (" << mouseX1 << "," << mouseY1 << ")" << std::endl;
 
 		SDL_Rect mouseRect = { mouseX1, mouseY1, 0, 0 };
 
