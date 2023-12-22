@@ -1,0 +1,4 @@
+CardImages: B1.bmp D4.bmp
+Rects: 320 680 100 200
+Rects: 370 680 27 34
+Rects: 0 0 27 34

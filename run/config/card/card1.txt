@@ -1,2 +1,0 @@
-Images: card1Back.bmp card1Front.bmp
-Rect: 100 100 270 340

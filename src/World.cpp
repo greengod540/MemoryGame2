@@ -26,6 +26,8 @@ void World::run()
 
     m_board.update();
     m_board.draw();
+    m_board.handleInput();
+    
 }
 
 void World::destroy()

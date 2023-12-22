@@ -92,8 +92,14 @@ struct DrawableSrcRect : Drawable
 	SDL_Rect srcRect;
 };
 
-enum SOUND 
+enum SOUND
 {
-	BACKGORUND_MUSIC,
+
+	BACKGROUND_MUSIC,
 	PLAYER_COLLISION,
+	CARDS_SAME,
+	CARDS_NOT_SAME,
+	SUCCESS
+
+
 };

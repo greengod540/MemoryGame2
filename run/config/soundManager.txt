@@ -1,2 +1,6 @@
 Backgorund_Music: background.wav
-Player_Coll: playerColl.wav
+Player_Coll: cardFlip.wav
+cardsSame: cardsSame.wav
+cardsNotSame: cardsNotSame.wav
+Success: Success.wav
+

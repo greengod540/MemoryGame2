@@ -10,8 +10,8 @@ int Presenter::m_SCREEN_HEIGHT = 0;
 
 void Presenter::init()
 {
-	m_SCREEN_WIDTH = 1920;
-	m_SCREEN_HEIGHT = 1080;
+	m_SCREEN_WIDTH = 1539;
+	m_SCREEN_HEIGHT = 864;
 
 	SDL_Init(SDL_INIT_EVERYTHING);
 	

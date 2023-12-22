@@ -1,55 +1,98 @@
 #include "Card.h"
-#include "Presenter.h"
+#include <Presenter.h>
+#include <defines.h>
+#include <iostream>
+#include "Engine.h"
+
+Presenter presenter_Card;
+std::string backimg, frontimg;
 
 Card::Card()
 {
-
 }
 
 Card::~Card()
 {
+}
+
+void Card::init(std::string configFile)
+{
+    std::fstream stream;
+    std::string tmp;
+
+    stream.open(configFile);
+    stream >> tmp >> backimg >> frontimg;
+    stream >> tmp >> tmp >> tmp >> card.rect.w >> card.rect.h;
+
+    back = loadTexture(backimg);
+    front = loadTexture(frontimg);
+
+    card.texture = back;
+
+
+
+    // Initialize drawRect based on the random value
+
+
 
 }
 
-void Card::init(string configFile)
+void Card::reset()
 {
-	fstream stream;
+   
 
-	string tmp, backImg, frontImg;
-
-	stream.open(CONFIG_FOLDER + CARD_FOLDER + configFile);
-
-	stream >> tmp >> backImg >> frontImg;
-	stream >> tmp >> m_card.rect.x >> m_card.rect.y >> m_card.rect.w >> m_card.rect.h;
-
-	stream.close();
-
-	m_back = loadTexture(CARD_FOLDER + backImg);
-	m_front = loadTexture(CARD_FOLDER + frontImg);
-
-	m_card.texture = m_back; //For dev purposes texture = front
 }
 
-void Card::chancheTexture()
+
+
+void Card::destroy()
 {
-	if (m_card.texture == m_back)
-	{
-		m_card.texture = m_front;
-	}
-	else
-	{
-		m_card.texture = m_back;
-	}
+    SDL_DestroyTexture(back);
+    SDL_DestroyTexture(front);
 }
 
 void Card::draw()
 {
-	drawObject(m_card);
+
+
+    if (isVisible == true) {
+        presenter_Card.drawObject(card);
+    }
+
+
 }
 
-void Card::destroy()
+
+void Card::changeTextureBack()
 {
-	SDL_DestroyTexture(m_back);
-	SDL_DestroyTexture(m_front);
-	SDL_DestroyTexture(m_card.texture);
+   
+        card.texture = front;
+    
+}
+
+void Card::changeTextureFront()
+{
+    
+        card.texture = back;
+    
+}
+
+int Card::getCardID()
+{
+    return Card::ID;
+}
+
+void Card::setCardID(int setID)
+{
+    Card::ID = setID;
+}
+
+void Card::hide()
+{
+    isVisible = false;
+}
+
+void Card::show()
+{
+    isVisible = true;
 }
