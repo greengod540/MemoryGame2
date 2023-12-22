@@ -19,8 +19,7 @@ void Presenter::init()
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1366, 768, 0);
 
 	
-	SDL_GetWindowSize(m_mainWindow, &m_SCREEN_WIDTH, &m_SCREEN_HEIGHT);
-	std::cout << "Window Size: " << m_SCREEN_WIDTH << " " << m_SCREEN_WIDTH;
+
 	m_mainRenderer = SDL_CreateRenderer(m_mainWindow, -1, SDL_RENDERER_PRESENTVSYNC);
 
 	improveRenderer();
@@ -60,6 +59,8 @@ void Presenter::improveRenderer()
 
 	auto desktopWidth = DM.w;
 	auto desktopHeight = DM.h;
+	m_SCREEN_HEIGHT = DM.h;
+	m_SCREEN_WIDTH = DM.w;
 
 	int2 mouseMultiply;
 
