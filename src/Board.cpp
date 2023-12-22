@@ -188,7 +188,33 @@ void Board::init()
 	Beer1.texture = loadTexture("Beer1.bmp");
 	Knife.rect = { 1300, 100, 50, 400 };
 	Beer1.rect = { 989, 574, 300, 300 };
-	setRandomPositions();
+	std::random_device rd;
+	std::default_random_engine eng(rd());
+	std::uniform_int_distribution<int> posXDist(300, 800);
+	std::uniform_int_distribution<int> posYDist(0, 700);
+
+	for (int i = 0; i < cards.size(); i++) {
+		bool overlap;
+
+		do {
+			overlap = false;
+			int randomPosX = posXDist(eng);
+			int randomPosY = posYDist(eng);
+
+			SDL_Rect currentCardRect = { randomPosX, randomPosY, 100, 200 };
+
+			for (int j = 0; j < i; j++) {
+				if (SDL_HasIntersection(&currentCardRect, &cards[j].card.rect)) {
+					overlap = true;
+					break;
+				}
+			}
+
+			if (!overlap) {
+				cards[i].card.rect = { randomPosX, randomPosY, 100, 200 };
+			}
+		} while (overlap);
+	}
 
 
 
