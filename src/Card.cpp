@@ -26,8 +26,7 @@ void Card::init(std::string configFile)
 
     back = loadTexture(backimg);
     front = loadTexture(frontimg);
-
-    card.texture = back;
+   
 
 
 
@@ -75,6 +74,17 @@ void Card::changeTextureFront()
     
         card.texture = back;
     
+}
+
+void Card::setRandomPos()
+{
+    int randomPosX = 300 + std::rand() % (800 - 300 + 1);
+    int randomPosY = std::rand() % 700;
+
+    card.rect.x = randomPosX;
+    card.rect.y = randomPosY;
+
+        
 }
 
 int Card::getCardID()

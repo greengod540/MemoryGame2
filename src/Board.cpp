@@ -16,6 +16,7 @@ Presenter presenter1;
 #include <chrono>
 #include <fstream>
 #include <iostream>
+#include <random>
 
 
 bool start = true;
@@ -70,34 +71,44 @@ void Board::mainMenu()
 {
 }
 
+#include <random>
+
+// ...
+
 void Board::setRandomPositions() {
+	std::random_device rd;
+	std::default_random_engine eng(rd());
+	std::uniform_int_distribution<int> posXDist(300, 800);
+	std::uniform_int_distribution<int> posYDist(0, 700);
+
 	for (int i = 0; i < cards.size(); i++) {
-		int randomPosX, randomPosY;
+		bool overlap;
 
 		do {
-			randomPosX = 300 + std::rand() % (800 - 300 + 1);
-			randomPosY = std::rand() % 700;
+			overlap = false;
+			int randomPosX = posXDist(eng);
+			int randomPosY = posYDist(eng);
 
 			SDL_Rect currentCardRect = { randomPosX, randomPosY, 100, 200 };
 
-			bool overlap = false;
-			for (int j = 0; j < cards.size(); j++) {
-				if (i != j) {
-					if (SDL_HasIntersection(&currentCardRect, &cards[j].card.rect)) {
-						overlap = true;
-						break;
-					}
+			for (int j = 0; j < i; j++) {
+				if (SDL_HasIntersection(&currentCardRect, &cards[j].card.rect)) {
+					overlap = true;
+					break;
 				}
 			}
 
 			if (!overlap) {
-				break;
+				cards[i].card.rect = { randomPosX, randomPosY, 100, 200 };
 			}
-		} while (true);
-
-		cards[i].card.rect = { randomPosX, randomPosY, 100, 200 };
+		} while (overlap);
 	}
 }
+
+
+
+
+
 
 
 void Board::tryAgain()
@@ -224,7 +235,7 @@ void Board::draw()
 	if (reset == false) {
 		for (int z = 0; z < cards.size(); z++) {
 
-			
+
 
 			cards[z].draw();
 
@@ -302,7 +313,8 @@ void Board::resetGame()
 		setRandomPositions();
 		cards[cardsReset].show();
 	}
-
+	start = true;
+	reset = false;
 
 
 }
@@ -389,7 +401,7 @@ void Board::handleInput()
 
 
 
-	if(isMouseInRect(InputManager::m_mouseCoor, Yes.rect) && InputManager::isMousePressed() && reset == true) {
+	if (isMouseInRect(InputManager::m_mouseCoor, Yes.rect) && InputManager::isMousePressed() && reset == true) {
 
 		resetGame();
 		start = true;
@@ -411,16 +423,20 @@ void Board::handleInput()
 		auto currentTime = std::chrono::steady_clock::now();
 		auto elapsedTime = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime - startTime).count();
 
-		// Show the cards for 4 seconds
-		for (int cardsHint = 0; cardsHint < cards.size(); cardsHint++) {
-			cards[cardsHint].changeTextureBack();
-
-			if (elapsedTime >= 10) {
-				cards[cardsHint].changeTextureFront();
-				start = false;
+		// Show the cards for the specified duration
+		if (elapsedTime < showCardsDuration) {
+			for (int cardsHint = 0; cardsHint < cards.size(); cardsHint++) {
+				cards[cardsHint].changeTextureBack();
 			}
 		}
+		else {
+			for (int cardsHint = 0; cardsHint < cards.size(); cardsHint++) {
+				cards[cardsHint].changeTextureFront();
+			}
+			start = false;  // Set start to false once the specified duration is reached
+		}
 	}
+
 
 
 
@@ -443,7 +459,7 @@ void Board::handleInput()
 
 
 		if (isMouseInRect(InputManager::m_mouseCoor, cards[h].card.rect) && InputManager::isMousePressed() && !ids.empty() && start == false) {
-			
+
 
 			std::cout << "gugu";
 
@@ -459,12 +475,4 @@ void Board::handleInput()
 
 	}
 }
-
-
-
-
-
-
-
-
 

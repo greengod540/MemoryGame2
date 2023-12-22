@@ -18,6 +18,7 @@ public:
 	void draw();
 	void changeTextureBack();
 	void changeTextureFront();
+	void setRandomPos();
 	int getCardID();
 	void setCardID(int setID);
 	void hide();
