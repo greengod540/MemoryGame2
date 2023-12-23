@@ -17,16 +17,18 @@ Presenter presenter1;
 #include <fstream>
 #include <iostream>
 #include <random>
-
+#include "TextCreator.h"
 
 
 static bool allowed = true;
 static const double showCardsDuration = 4.0;
+int moves = 0;
 int2 firstPos = { 0, 0 };
 int2 secondPos = { 0, 0 };
 int card1Check;
 int card2Check;
 
+int background = NULL;
 
 
 bool change_tex = false;
@@ -46,6 +48,7 @@ static bool tryAgainDrawn = false;
 
 Player player1;
 Player player2;
+SDL_Color text = { 255, 255, 255 };
 
 
 
@@ -112,6 +115,7 @@ void Board::setRandomPositions() {
 
 void Board::tryAgain()
 {
+	
 	soundManager.playSound(SUCCESS);
 	presenter1.drawObject(tryAgainScreen);
 	presenter1.drawObject(Yes);
@@ -121,6 +125,7 @@ void Board::tryAgain()
 
 void Board::init()
 {
+	
 	food1.texture = loadTexture("food2.bmp");
 	food1.rect = {128, 705, 300, 300};
 	Beer2.texture = loadTexture("Beer2.bmp");
@@ -130,6 +135,10 @@ void Board::init()
 	dragonHead.rect = { 50, 0, 200, 200 };
 	backgroundTable.texture = loadTexture("woodTable.bmp");
 	backgroundTable.rect = { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT };
+	background2.texture = loadTexture("medievalBackground.bmp");
+	background2.rect = { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT };
+	background3.texture = loadTexture("medievalBarBackground.bmp");
+	background3.rect = { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT };
 	tryAgainScreen.texture = loadTexture("tryagain3.bmp");
 	tryAgainScreen.rect = { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT };
 	Yes.texture = loadTexture("YES.bmp");
@@ -217,6 +226,11 @@ void Board::init()
 		} while (overlap);
 	}
 
+	std::random_device rd1;
+	std::default_random_engine eng1(rd1());
+	std::uniform_int_distribution<int> backgrounds(1, 3);
+	background = backgrounds(eng1);
+
 
 
 
@@ -253,12 +267,25 @@ void Board::update() {
 
 void Board::draw()
 {
-	presenter1.drawObject(backgroundTable);
-	presenter1.drawObject(Knife);
-	presenter1.drawObject(Beer1);
-	presenter1.drawObject(Beer2);
-	presenter1.drawObject(dragonHead);
-	presenter1.drawObject(food1);
+	switch(background) {
+	case 1:
+		presenter1.drawObject(backgroundTable);
+		presenter1.drawObject(Knife);
+		presenter1.drawObject(Beer1);
+		presenter1.drawObject(Beer2);
+		presenter1.drawObject(dragonHead);
+		presenter1.drawObject(food1);
+		break;
+
+	case 2:
+		presenter1.drawObject(background2);
+		break;
+
+	case 3:
+		presenter1.drawObject(background3);
+		break;
+	}
+	
 
 	if (reset == false) {
 		for (int z = 0; z < cards.size(); z++) {
@@ -273,6 +300,7 @@ void Board::draw()
 	}
 	else if (ids.empty()) {
 		presenter1.drawObject(tryAgainScreen);
+		Text_Creator::TextCreate((FONT_FOLDER + "OldLondon.ttf").c_str(), 300, 10, 10, 300, 100, ("moves: " + std::to_string(moves)).c_str(), text);
 		presenter1.drawObject(Yes);
 		presenter1.drawObject(No);
 
@@ -364,7 +392,7 @@ void Board::resetGame()
 			}
 		} while (overlap);
 	}
-
+	moves = 0;
 	reset = false;
 
 
@@ -508,6 +536,7 @@ void Board::handleInput()
 
 
 			std::cout << "gugu";
+			moves++;
 
 			soundManager.playSound(PLAYER_COLLISION);
 			mousePressed++;

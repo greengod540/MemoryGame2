@@ -51,6 +51,8 @@ public:
 	Drawable dragonHead;
 	Drawable Beer2;
 	Drawable food1;
+	Drawable background2;
+	Drawable background3;
 	std::vector<Card> cards = { card1, card2, card3, card4, card5, card6, card7, card8, card9, card10 };
 	std::vector<int> cardsID = { 1, 2, 3, 3, 5, 5, 2, 1, 9, 9 };
 	std::vector<int> nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };

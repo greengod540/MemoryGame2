@@ -11,6 +11,7 @@ static string IMG_FOLDER = "img\\";
 static string CONFIG_FOLDER = "config\\";
 static string SOUND_FOLDER = "sound\\";
 static string CARD_FOLDER = "card\\";
+static string FONT_FOLDER = "font\\";
 
 struct int2
 {
