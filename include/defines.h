@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <SDL.h>
+#include <random>
 
 using namespace std;
 
@@ -100,7 +101,8 @@ enum SOUND
 	CARDS_SAME,
 	CARDS_NOT_SAME,
 	SUCCESS,
-	QUIT
+	QUIT,
+	BACKGROUND2
 
 
 };

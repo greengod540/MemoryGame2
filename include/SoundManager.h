@@ -20,4 +20,5 @@ private:
 	static Mix_Chunk* cardsNotSame;
 	static Mix_Chunk* Success;
 	static Mix_Chunk* Quit;
+	static Mix_Chunk* background2;
 };

@@ -9,6 +9,7 @@ Mix_Chunk* SoundManager::cardsSame = nullptr;
 Mix_Chunk* SoundManager::cardsNotSame = nullptr;
 Mix_Chunk* SoundManager::Success = nullptr;
 Mix_Chunk* SoundManager::Quit = nullptr;
+Mix_Chunk* SoundManager::background2 = nullptr;
 
 SoundManager::SoundManager()
 {
@@ -22,7 +23,7 @@ void SoundManager::init()
 {
 
 	std::fstream stream;
-	std::string tmp, backgroundMusic, playerColl, cardsSameS, cardsNotSameS, SuccessS, quitS;
+	std::string tmp, backgroundMusic, playerColl, cardsSameS, cardsNotSameS, SuccessS, quitS, background2S;
 
 	stream.open("config\\soundManager.txt");
 	stream >> tmp >> backgroundMusic;
@@ -31,6 +32,7 @@ void SoundManager::init()
 	stream >> tmp >> cardsNotSameS;
 	stream >> tmp >> SuccessS;
 	stream >> tmp >> quitS;
+	stream >> tmp >> background2S;
 	stream.close();
 
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) < 0) {
@@ -44,8 +46,21 @@ void SoundManager::init()
 	cardsNotSame = Mix_LoadWAV((SOUND_FOLDER + cardsNotSameS).c_str());
 	Success = Mix_LoadWAV((SOUND_FOLDER + SuccessS).c_str());
 	Quit = Mix_LoadWAV((SOUND_FOLDER + quitS).c_str());
+	background2 = Mix_LoadWAV((SOUND_FOLDER + background2S).c_str());
 
-	playSound(BACKGROUND_MUSIC);
+	std::random_device rd;
+	std::default_random_engine eng(rd());
+	std::uniform_int_distribution<int> randomBackgroundMusic(1, 2);
+
+	int randomBackground = randomBackgroundMusic(eng);
+	if (randomBackground == 1) {
+		playSound(BACKGROUND_MUSIC);
+	}
+	else {
+		playSound(BACKGROUND2);
+	}
+	
+
 
 }
 
@@ -58,6 +73,11 @@ void SoundManager::playSound(SOUND sound)
 	switch (sound) {
 	case BACKGROUND_MUSIC:
 		Mix_PlayChannel(0, m_backgroundMusic,-1);
+		Mix_Volume(0, 34);
+		break;
+
+	case BACKGROUND2:
+		Mix_PlayChannel(0, background2, -1);
 		Mix_Volume(0, 34);
 		break;
 

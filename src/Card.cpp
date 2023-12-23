@@ -28,7 +28,7 @@ void Card::init(std::string configFile)
     front = loadTexture(frontimg);
    
 
-
+    card.texture = back;
 
     // Initialize drawRect based on the random value
 
