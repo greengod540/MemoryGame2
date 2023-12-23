@@ -71,9 +71,8 @@ void Board::mainMenu()
 {
 }
 
-#include <random>
 
-// ...
+
 
 void Board::setRandomPositions() {
 	std::random_device rd;
@@ -122,6 +121,8 @@ void Board::tryAgain()
 
 void Board::init()
 {
+	food1.texture = loadTexture("food2.bmp");
+	food1.rect = {128, 705, 300, 300};
 	Beer2.texture = loadTexture("Beer2.bmp");
 	Beer2.rect = { 989, 0, 200, 200 };
 
@@ -257,6 +258,7 @@ void Board::draw()
 	presenter1.drawObject(Beer1);
 	presenter1.drawObject(Beer2);
 	presenter1.drawObject(dragonHead);
+	presenter1.drawObject(food1);
 
 	if (reset == false) {
 		for (int z = 0; z < cards.size(); z++) {
@@ -327,13 +329,12 @@ void Board::resetGame()
 	std::fstream stream;
 	stream.open("log.txt");
 
-	// Write to the file
 	stream << SDL_GetError();
 
-	// Close the file
+
 	stream.close();
 
-	// Reset each card in the cards vector
+
 	for (int cardsReset = 0; cardsReset < cards.size(); cardsReset++) {
 		cards[cardsReset].reset();
 		setRandomPositions();
@@ -423,6 +424,7 @@ void Board::handleInput()
 	static auto startTime = std::chrono::steady_clock::now(); // Record the start time
 
 	SDL_GetGlobalMouseState(&mouseX, &mouseY);
+	std::cout << "MouseCoordinates: " << "(" << mouseX << "," << mouseY << ")" << std::endl;
 
 
 
@@ -434,6 +436,7 @@ void Board::handleInput()
 		reset = false;
 	}
 	else if (isMouseInRect(InputManager::m_mouseCoor, No.rect) && InputManager::isMousePressed() && reset == true) {
+		soundManager.playSound(QUIT);
 		SDL_Quit();
 		exit(1);
 
