@@ -19,7 +19,7 @@ Presenter presenter1;
 #include <random>
 
 
-bool start = true;
+
 static bool allowed = true;
 static const double showCardsDuration = 4.0;
 int2 firstPos = { 0, 0 };
@@ -334,13 +334,37 @@ void Board::resetGame()
 
 	stream.close();
 
-
+	std::random_device rd;
+	std::default_random_engine eng(rd());
+	std::uniform_int_distribution<int> posXDist(300, 800);
+	std::uniform_int_distribution<int> posYDist(0, 700);
 	for (int cardsReset = 0; cardsReset < cards.size(); cardsReset++) {
-		cards[cardsReset].reset();
-		setRandomPositions();
 		cards[cardsReset].show();
+		cards[cardsReset].changeTextureFront();
 	}
-	start = true;
+	for (int i = 0; i < cards.size(); i++) {
+		bool overlap;
+
+		do {
+			overlap = false;
+			int randomPosX = posXDist(eng);
+			int randomPosY = posYDist(eng);
+
+			SDL_Rect currentCardRect = { randomPosX, randomPosY, 100, 200 };
+
+			for (int j = 0; j < i; j++) {
+				if (SDL_HasIntersection(&currentCardRect, &cards[j].card.rect)) {
+					overlap = true;
+					break;
+				}
+			}
+
+			if (!overlap) {
+				cards[i].card.rect = { randomPosX, randomPosY, 100, 200 };
+			}
+		} while (overlap);
+	}
+
 	reset = false;
 
 
@@ -432,8 +456,6 @@ void Board::handleInput()
 	if (isMouseInRect(InputManager::m_mouseCoor, Yes.rect) && InputManager::isMousePressed() && reset == true) {
 
 		resetGame();
-		start = true;
-		reset = false;
 	}
 	else if (isMouseInRect(InputManager::m_mouseCoor, No.rect) && InputManager::isMousePressed() && reset == true) {
 		soundManager.playSound(QUIT);
@@ -448,23 +470,7 @@ void Board::handleInput()
 
 
 
-	if (start) {
-		auto currentTime = std::chrono::steady_clock::now();
-		auto elapsedTime = std::chrono::duration_cast<std::chrono::duration<double>>(currentTime - startTime).count();
-
-		// Show the cards for the specified duration
-		if (elapsedTime < showCardsDuration) {
-			for (int cardsHint = 0; cardsHint < cards.size(); cardsHint++) {
-				cards[cardsHint].changeTextureBack();
-			}
-		}
-		else {
-			for (int cardsHint = 0; cardsHint < cards.size(); cardsHint++) {
-				cards[cardsHint].changeTextureFront();
-			}
-			start = false;  // Set start to false once the specified duration is reached
-		}
-	}
+	
 
 
 
@@ -487,7 +493,7 @@ void Board::handleInput()
 		// Show the cards for a specified duration
 
 
-		if (isMouseInRect(InputManager::m_mouseCoor, cards[h].card.rect) && InputManager::isMousePressed() && !ids.empty() && start == false) {
+		if (isMouseInRect(InputManager::m_mouseCoor, cards[h].card.rect) && InputManager::isMousePressed() && !ids.empty()) {
 
 
 			std::cout << "gugu";

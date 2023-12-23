@@ -59,6 +59,7 @@ void SoundManager::init()
 	else {
 		playSound(BACKGROUND2);
 	}
+	std::cout << randomBackground;
 	
 
 
