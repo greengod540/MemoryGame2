@@ -421,23 +421,34 @@ void Board::handleCardSelection(int cardIndex)
 	}
 	else if (mousePressed == 2) {
 		secondClickIndex = cardIndex;
-		cards[secondClickIndex].changeTextureBack();
+		if (firstClickIndex != secondClickIndex) {
+			cards[secondClickIndex].changeTextureBack();
 
-		if (foundMap(firstClickIndex, secondClickIndex, ids)) {
-			soundManager.playSound(CARDS_SAME);
-			cards[firstClickIndex].hide();
-			cards[secondClickIndex].hide();
-			ids.erase(firstClickIndex);
-			ids.erase(secondClickIndex);
-			mousePressed = 0;
+
+
+			if (foundMap(firstClickIndex, secondClickIndex, ids)) {
+				soundManager.playSound(CARDS_SAME);
+				cards[firstClickIndex].hide();
+				cards[secondClickIndex].hide();
+				ids.erase(firstClickIndex);
+				ids.erase(secondClickIndex);
+				mousePressed = 0;
+			}
+
+			else if (foundMap(firstClickIndex, secondClickIndex, ids) == false) {
+				soundManager.playSound(CARDS_NOT_SAME);
+				cards[firstClickIndex].changeTextureFront();
+				cards[secondClickIndex].changeTextureFront();
+				mousePressed = 0;
+			}
 		}
 		else {
-			soundManager.playSound(CARDS_NOT_SAME);
-			cards[firstClickIndex].changeTextureFront();
-			cards[secondClickIndex].changeTextureFront();
-			mousePressed = 0;
+			mousePressed = 1;
 		}
+		
+		
 	}
+	
 }
 
 
@@ -501,6 +512,9 @@ void Board::handleInput()
 			soundManager.playSound(PLAYER_COLLISION);
 			mousePressed++;
 			handleCardSelection(h);
+			if (mousePressed > 2) {
+				mousePressed = 0; // Reset to 0 after the second click
+			}
 		}
 		if (ids.empty()) {
 			std::cout << "ids empty";

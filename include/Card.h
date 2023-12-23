@@ -25,6 +25,7 @@ public:
 	void show();
 	int ID;
 	bool isVisible = true;
+	bool isOpen = false;
 	Drawable card;
 	SDL_Rect dstRect = { 0, 0, 0, 0 };
 	int random = 0;
