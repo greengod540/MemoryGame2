@@ -52,4 +52,6 @@ void Text_Creator::TextCreate(const char* font, int size, int x, int y, int w, i
 	// to dabble with cropping), and the rect which is the size
 	// and coordinate of your texture
 	Presenter::drawObject(text1);
+	SDL_FreeSurface(surfaceMessage);
+	SDL_DestroyTexture(text1.texture);
 }

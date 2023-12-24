@@ -40,6 +40,7 @@ SoundManager soundManager;
 bool draw1 = false;
 bool reset = false;
 
+int mistakes = 0;
 
 int mousePressed = 0;
 std::vector<int> index = { 0, 0 };
@@ -301,6 +302,7 @@ void Board::draw()
 	else if (ids.empty()) {
 		presenter1.drawObject(tryAgainScreen);
 		Text_Creator::TextCreate((FONT_FOLDER + "OldLondon.ttf").c_str(), 300, 10, 10, 300, 100, ("moves: " + std::to_string(moves)).c_str(), text);
+		Text_Creator::TextCreate((FONT_FOLDER + "OldLondon.ttf").c_str(), 300, 300, 111, 300, 100, ("mistakes: " + std::to_string(mistakes)).c_str(), text);
 		presenter1.drawObject(Yes);
 		presenter1.drawObject(No);
 
@@ -393,6 +395,7 @@ void Board::resetGame()
 		} while (overlap);
 	}
 	moves = 0;
+	mistakes = 0;
 	reset = false;
 
 
@@ -464,6 +467,7 @@ void Board::handleCardSelection(int cardIndex)
 			}
 
 			else if (foundMap(firstClickIndex, secondClickIndex, ids) == false) {
+				mistakes++;
 				soundManager.playSound(CARDS_NOT_SAME);
 				cards[firstClickIndex].changeTextureFront();
 				cards[secondClickIndex].changeTextureFront();
