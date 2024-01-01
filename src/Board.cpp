@@ -182,7 +182,7 @@ void Board::init()
 	soundManager.init();
 	cards = { card1, card2, card3, card4, card5, card6, card7, card8, card9, card10 };
 
-
+	
 
 
 	ids[0] = 1;
@@ -294,9 +294,14 @@ void Board::draw()
 
 
 			cards[z].draw();
+			lightManager.createShadows({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, cards[z].card);
 
 
 		}
+		lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 120);
+
+		
+		
 
 	}
 	else if (ids.empty()) {
@@ -305,6 +310,7 @@ void Board::draw()
 		Text_Creator::TextCreate((FONT_FOLDER + "OldLondon.ttf").c_str(), 300, 300, 111, 300, 100, ("mistakes: " + std::to_string(mistakes)).c_str(), text);
 		presenter1.drawObject(Yes);
 		presenter1.drawObject(No);
+
 
 	}
 
@@ -394,6 +400,12 @@ void Board::resetGame()
 			}
 		} while (overlap);
 	}
+
+	std::random_device rd1;
+	std::default_random_engine eng1(rd1());
+	std::uniform_int_distribution<int> backgrounds(1, 3);
+	background = backgrounds(eng1);
+
 	moves = 0;
 	mistakes = 0;
 	reset = false;
@@ -491,7 +503,7 @@ void Board::handleInput()
 	static auto startTime = std::chrono::steady_clock::now(); // Record the start time
 
 	SDL_GetGlobalMouseState(&mouseX, &mouseY);
-	std::cout << "MouseCoordinates: " << "(" << mouseX << "," << mouseY << ")" << std::endl;
+	
 
 
 
@@ -519,7 +531,7 @@ void Board::handleInput()
 
 
 	for (int h = 0; h < cards.size(); h++) {
-		std::cout << cards[h].card.rect.x;
+		
 		int mouseX1, mouseY1;
 
 		static auto startTime = std::chrono::steady_clock::now(); // Record the start time

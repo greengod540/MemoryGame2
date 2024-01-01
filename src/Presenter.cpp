@@ -32,23 +32,31 @@ void Presenter::update()
 
 void Presenter::draw()
 {
-	SDL_RenderPresent(m_mainRenderer);
 
+	SDL_RenderPresent(m_mainRenderer);
+	
 	SDL_RenderClear(m_mainRenderer);
+
+	
+	
+
 }
 
 void Presenter::drawObject(SDL_Texture* texture)
 {
+	SDL_SetRenderDrawBlendMode(m_mainRenderer, SDL_BLENDMODE_BLEND);
 	SDL_RenderCopy(m_mainRenderer, texture, NULL, NULL);
 }
 
 void Presenter::drawObject(Drawable& drawable)
 {
+	SDL_SetRenderDrawBlendMode(m_mainRenderer, SDL_BLENDMODE_BLEND);
 	SDL_RenderCopy(m_mainRenderer, drawable.texture, NULL, &drawable.rect);
 }
 
 void Presenter::drawObject(DrawableSrcRect& drawableSrcRect)
 {
+	SDL_SetRenderDrawBlendMode(m_mainRenderer, SDL_BLENDMODE_BLEND);
 	SDL_RenderCopy(m_mainRenderer, drawableSrcRect.texture, &drawableSrcRect.rect, &drawableSrcRect.srcRect);
 }
 
@@ -76,6 +84,7 @@ void Presenter::improveRenderer()
 
 	SDL_RenderSetLogicalSize(m_mainRenderer, m_SCREEN_WIDTH, m_SCREEN_HEIGHT);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+
 }
 
 SDL_Texture* loadTexture(string path)

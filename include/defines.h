@@ -87,6 +87,7 @@ struct Drawable
 {
 	SDL_Texture* texture;
 	SDL_Rect rect; //dstRect;
+	bool shadow_caster;
 };
 
 struct DrawableSrcRect : Drawable

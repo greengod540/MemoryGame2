@@ -7,6 +7,7 @@
 #include <SDL.h>
 #include <vector>
 #include <map>
+#include "Light.h"
 
 
 
@@ -17,6 +18,7 @@ public:
 	Board();
 	~Board();
 
+	Light lightManager;
 
 	void mainMenu();
 	void setRandomPositions();
