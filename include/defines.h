@@ -90,6 +90,9 @@ struct Drawable
 	bool shadow_caster;
 };
 
+static vector<Drawable> objects;
+
+
 struct DrawableSrcRect : Drawable
 {
 	SDL_Rect srcRect;

@@ -17,6 +17,7 @@ void World::init()
     m_board.init();
 
     m_soundManager.init();
+    
 }
 
 void World::run()

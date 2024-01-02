@@ -4,6 +4,7 @@
 #include "InputManager.h"
 #include "Board.h"
 #include "SoundManager.h" 
+#include "Light.h"
 
 class World
 {
@@ -15,6 +16,7 @@ public:
 	InputManager m_inputManager;
 	Board m_board;
 	SoundManager m_soundManager;
+	
 
 	void init();
 	void run(); //Update and Draw

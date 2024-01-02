@@ -58,6 +58,15 @@ void Presenter::drawObject(DrawableSrcRect& drawableSrcRect)
 {
 	SDL_SetRenderDrawBlendMode(m_mainRenderer, SDL_BLENDMODE_BLEND);
 	SDL_RenderCopy(m_mainRenderer, drawableSrcRect.texture, &drawableSrcRect.rect, &drawableSrcRect.srcRect);
+
+
+	
+}
+
+void Presenter::drawObject(Drawable& drawable, int angle) {
+
+	SDL_RenderCopyEx(Presenter::m_mainRenderer, drawable.texture, nullptr, &drawable.rect, angle, nullptr, SDL_FLIP_NONE);
+
 }
 
 void Presenter::improveRenderer()
@@ -90,4 +99,9 @@ void Presenter::improveRenderer()
 SDL_Texture* loadTexture(string path)
 {
 	return LoadTexture(path, Presenter::m_mainRenderer);
+}
+
+Drawable rotateTexture(Drawable texture)
+{
+	return Drawable();
 }

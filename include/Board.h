@@ -8,6 +8,7 @@
 #include <vector>
 #include <map>
 #include "Light.h"
+#include "defines.h"
 
 
 
@@ -55,9 +56,11 @@ public:
 	Drawable food1;
 	Drawable background2;
 	Drawable background3;
+	
 	std::vector<Card> cards = { card1, card2, card3, card4, card5, card6, card7, card8, card9, card10 };
 	std::vector<int> cardsID = { 1, 2, 3, 3, 5, 5, 2, 1, 9, 9 };
 	std::vector<int> nums = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+	
 	bool foundMap(int keyOrValue1, int keyOrValue2, std::map<int, int>& myMap);
 	void eraseElementsByValue(std::map<int, int>& myMap, const int& valueToErase);
 	void handleCardSelection(int cardIndex);

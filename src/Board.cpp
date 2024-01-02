@@ -164,7 +164,7 @@ void Board::init()
 
 
 
-
+	lightManager.init();
 
 
 
@@ -232,7 +232,10 @@ void Board::init()
 	std::uniform_int_distribution<int> backgrounds(1, 3);
 	background = backgrounds(eng1);
 
-
+	for (int it = 0; it < cards.size(); it++) {
+		objects.push_back(cards[it].card);
+		
+	}
 
 
 
@@ -276,30 +279,42 @@ void Board::draw()
 		presenter1.drawObject(Beer2);
 		presenter1.drawObject(dragonHead);
 		presenter1.drawObject(food1);
+		objects.push_back(backgroundTable);
+		objects.push_back(Knife);
+		objects.push_back(Beer1);
+		objects.push_back(dragonHead);
+		objects.push_back(food1);
 		break;
 
 	case 2:
 		presenter1.drawObject(background2);
+		objects.push_back(background2);
 		break;
 
 	case 3:
 		presenter1.drawObject(background3);
+		objects.push_back(background3);
 		break;
 	}
 	
 
 	if (reset == false) {
+
 		for (int z = 0; z < cards.size(); z++) {
 
 
 
 			cards[z].draw();
+			//lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 255);
+
 			lightManager.createShadows({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, cards[z].card);
 
-
 		}
-		lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 120);
+		lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 128);
 
+		
+		
+		
 		
 		
 
@@ -354,6 +369,7 @@ void Board::destroy()
 
 void Board::resetGame()
 {
+	objects.clear();
 
 	ids[0] = 1;
 	ids[2] = 3;
@@ -561,6 +577,7 @@ void Board::handleInput()
 				mousePressed = 0; // Reset to 0 after the second click
 			}
 		}
+		
 		if (ids.empty()) {
 			std::cout << "ids empty";
 

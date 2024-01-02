@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine.h"
+#include "defines.h"
 
 class Presenter
 {
@@ -18,6 +19,7 @@ public:
 	static void drawObject(SDL_Texture* texture);
 	static void drawObject(Drawable& drawable);
 	static void drawObject(DrawableSrcRect& drawableSrcRect);
+	static void drawObject(Drawable& drawable, int angle);
 	
 
 private:
@@ -31,3 +33,4 @@ void drawObject(Params& value)
 }
 
 SDL_Texture* loadTexture(string path);
+Drawable rotateTexture(Drawable texture);
