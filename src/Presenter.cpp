@@ -69,6 +69,11 @@ void Presenter::drawObject(Drawable& drawable, int angle) {
 
 }
 
+void Presenter::drawObject(SDL_Rect rect)
+{
+	SDL_RenderDrawRect(m_mainRenderer, &rect);
+}
+
 void Presenter::improveRenderer()
 {
 	SDL_DisplayMode DM;

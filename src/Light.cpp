@@ -1,9 +1,14 @@
 #include "Light.h"
 #include <cmath>
 #include <Engine.h>
+#include <iostream>
+#include <algorithm>
+
+#include <unordered_set>
 
 Light light;
 Uint8 Light::lightStrength;
+int checkDuplicates = 0;
 
 Light::Light() {
 }
@@ -69,3 +74,52 @@ void Light::createShadows(SDL_Rect lightPosition, Drawable object) {
 
     Presenter::drawObject(light.shadow, angle);
 }
+
+
+
+std::vector<Drawable> Light::findObjects(SDL_Rect lightPosition, const std::vector<Drawable> objectVector) {
+    std::vector<Drawable> returnObjects;
+    const double angleIncrement = 2 * M_PI / 21;  // Increase the precision
+    int rayLength = 500;
+
+    for (double angle = 0; angle < 2 * M_PI; angle += angleIncrement) {
+        int endX = static_cast<int>(lightPosition.x + lightPosition.w / 2 + rayLength * std::cos(angle));
+        int endY = static_cast<int>(lightPosition.y + lightPosition.h / 2 + rayLength * std::sin(angle));
+
+        // Create SDL_Rect representing the ray
+        SDL_Rect rayRect = { lightPosition.x + lightPosition.w / 2, lightPosition.y + lightPosition.h / 2, endX - lightPosition.x, endY - lightPosition.y };
+
+
+        drawObject(rayRect);
+
+        
+        
+
+        for (const auto& obj : objectVector) {
+            if (SDL_HasIntersection(&rayRect, &obj.rect) || isPointInsideEllipse(endX, endY, lightPosition.x, lightPosition.y, 500, 500)) {
+                returnObjects.push_back(obj);
+                
+            }
+            if (checkDuplicates < 2) {
+                checkDuplicates++;
+            }
+            if (checkDuplicates == 2) {
+                for (int i = 0; i < returnObjects.size(); ++i) {
+                    for (int j = i + 1; j < returnObjects.size(); ++j) {
+                        if (returnObjects[i].rect.x == returnObjects[j].rect.x) {
+                            returnObjects.erase(returnObjects.begin() + i);
+                              
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+
+    return returnObjects;
+}
+
+
+
+

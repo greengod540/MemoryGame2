@@ -20,6 +20,7 @@ public:
 	static void drawObject(Drawable& drawable);
 	static void drawObject(DrawableSrcRect& drawableSrcRect);
 	static void drawObject(Drawable& drawable, int angle);
+	static void drawObject(SDL_Rect rect);
 	
 
 private:

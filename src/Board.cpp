@@ -298,6 +298,7 @@ void Board::draw()
 	}
 	
 
+	std::vector<Drawable> shadows = lightManager.findObjects({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, objects);
 	if (reset == false) {
 
 		for (int z = 0; z < cards.size(); z++) {
@@ -307,10 +308,14 @@ void Board::draw()
 			cards[z].draw();
 			//lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 255);
 
-			lightManager.createShadows({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, cards[z].card);
+			
+			
 
 		}
 		lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 128);
+		for (int i = 0; i < shadows.size(); i++) {
+			lightManager.createShadows({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, shadows[i]);
+		}
 
 		
 		

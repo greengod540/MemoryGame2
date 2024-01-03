@@ -53,12 +53,15 @@ void SoundManager::init()
 	std::uniform_int_distribution<int> randomBackgroundMusic(1, 2);
 
 	int randomBackground = randomBackgroundMusic(eng);
-	if (randomBackground == 1) {
+	/*
+	
+		if (randomBackground == 1) {
 		playSound(BACKGROUND_MUSIC);
 	}
 	else {
 		playSound(BACKGROUND2);
 	}
+	*/
 	std::cout << randomBackground;
 	
 
