@@ -155,6 +155,7 @@ void Board::init()
 	No.rect = { 700, 700, 200, 200 };
 
 
+
 	std::string configFile = "config\\boardInit.txt";
 
 	std::fstream stream;
@@ -202,9 +203,11 @@ void Board::init()
 
 
 	Knife.texture = loadTexture("oneKnife.bmp");
+	Knife.shadowTexture = loadTexture("oneKnife.bmp");
 
 
 	Beer1.texture = loadTexture("Beer1.bmp");
+	Beer1.shadowTexture = loadTexture("Beer1.bmp");
 	Knife.rect = { 1300, 100, 50, 400 };
 	Beer1.rect = { 989, 574, 300, 300 };
 	std::random_device rd;
@@ -242,6 +245,12 @@ void Board::init()
 
 	for (int it = 0; it < cards.size(); it++) {
 		objects.push_back(cards[it].card);
+	}
+	if (background == 1) {
+		objects.push_back(Knife);
+		objects.push_back(Beer1);
+		objects.push_back(dragonHead);
+		objects.push_back(food1);
 	}
 
 
@@ -286,10 +295,7 @@ void Board::draw()
 		presenter1.drawObject(Beer2);
 		presenter1.drawObject(dragonHead);
 		presenter1.drawObject(food1);
-		objects.push_back(Knife);
-		objects.push_back(Beer1);
-		objects.push_back(dragonHead);
-		objects.push_back(food1);
+		
 		break;
 
 	case 2:
