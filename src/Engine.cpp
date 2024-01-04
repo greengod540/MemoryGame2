@@ -1,6 +1,7 @@
 #include "Engine.h"
 
 
+
 SDL_Texture* LoadTexture(string imgPath, SDL_Renderer* renderer)
 {
 	string tmpImg = IMG_FOLDER + imgPath;
@@ -18,6 +19,7 @@ SDL_Texture* LoadTexture(string imgPath, SDL_Renderer* renderer)
 
 		texture = SDL_CreateTextureFromSurface(renderer, loadingSurface);
 		shadowTexture = SDL_CreateTextureFromSurface(renderer, loadingSurface);
+		
 
 	}
 	textures.push_back(shadowTexture);
@@ -63,9 +65,8 @@ bool colliding(SDL_Rect rect1, SDL_Rect rect2, int offsetx, int offsety) {
 	return checkCollisionX && checkCollisionY;
 }
 
-bool isPointInsideEllipse(int x, int y, int ellipseCenterX, int ellipseCenterY, int ellipseWidth, int ellipseHeight)
+bool isPointInsideCircle(int x, int y, int centerX, int centerY, int radius)
 {
-	double normalizedX = static_cast<double>(x - ellipseCenterX) / (ellipseWidth / 2.0);
-	double normalizedY = static_cast<double>(y - ellipseCenterY) / (ellipseHeight / 2.0);
-	return (normalizedX * normalizedX + normalizedY * normalizedY) <= 1.0;
+	return ((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY)) <= (radius * radius);
 }
+

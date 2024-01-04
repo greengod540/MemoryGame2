@@ -4,7 +4,7 @@
 #include <fstream>
 #include <SDL.h>
 #include <random>
-
+#include "textures.h"
 using namespace std;
 
 static string IMG_FOLDER = "img\\";
@@ -12,6 +12,7 @@ static string CONFIG_FOLDER = "config\\";
 static string SOUND_FOLDER = "sound\\";
 static string CARD_FOLDER = "card\\";
 static string FONT_FOLDER = "font\\";
+
 
 struct int2
 {
@@ -88,6 +89,7 @@ struct Drawable
 	SDL_Texture* texture;
 	SDL_Rect rect; //dstRect;
 	bool shadow_caster;
+	SDL_Texture* shadowTexture;
 };
 
 static vector<Drawable> objects;

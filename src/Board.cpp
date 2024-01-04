@@ -18,7 +18,9 @@ Presenter presenter1;
 #include <iostream>
 #include <random>
 #include "TextCreator.h"
+#include <textures.h>
 
+std::vector<SDL_Texture*> textures;
 
 static bool allowed = true;
 static const double showCardsDuration = 4.0;
@@ -126,15 +128,20 @@ void Board::tryAgain()
 
 void Board::init()
 {
+	std::vector<SDL_Texture*> textures;
 	
 	food1.texture = loadTexture("food2.bmp");
+	food1.shadowTexture = loadTexture("food2.bmp");
 	food1.rect = {128, 705, 300, 300};
 	Beer2.texture = loadTexture("Beer2.bmp");
+	Beer2.shadowTexture = loadTexture("Beer2.bmp");
 	Beer2.rect = { 989, 0, 200, 200 };
 
 	dragonHead.texture = loadTexture("dragonHead.bmp");
+	dragonHead.shadowTexture = loadTexture("dragonHead.bmp");
 	dragonHead.rect = { 50, 0, 200, 200 };
 	backgroundTable.texture = loadTexture("woodTable.bmp");
+	backgroundTable.shadowTexture = loadTexture("woodTable.bmp");
 	backgroundTable.rect = { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT };
 	background2.texture = loadTexture("medievalBackground.bmp");
 	background2.rect = { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT };
@@ -146,6 +153,7 @@ void Board::init()
 	Yes.rect = { 700, 500, 200, 200 };
 	No.texture = loadTexture("No.bmp");
 	No.rect = { 700, 700, 200, 200 };
+
 
 	std::string configFile = "config\\boardInit.txt";
 
@@ -234,7 +242,6 @@ void Board::init()
 
 	for (int it = 0; it < cards.size(); it++) {
 		objects.push_back(cards[it].card);
-		
 	}
 
 
@@ -279,7 +286,6 @@ void Board::draw()
 		presenter1.drawObject(Beer2);
 		presenter1.drawObject(dragonHead);
 		presenter1.drawObject(food1);
-		objects.push_back(backgroundTable);
 		objects.push_back(Knife);
 		objects.push_back(Beer1);
 		objects.push_back(dragonHead);
@@ -288,12 +294,10 @@ void Board::draw()
 
 	case 2:
 		presenter1.drawObject(background2);
-		objects.push_back(background2);
 		break;
 
 	case 3:
 		presenter1.drawObject(background3);
-		objects.push_back(background3);
 		break;
 	}
 	
@@ -313,9 +317,7 @@ void Board::draw()
 
 		}
 		lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 128);
-		for (int i = 0; i < shadows.size(); i++) {
-			lightManager.createShadows({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, shadows[i]);
-		}
+		lightManager.createShadows({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, shadows, textures);
 
 		
 		

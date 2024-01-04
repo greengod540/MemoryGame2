@@ -25,10 +25,12 @@ void Card::init(std::string configFile)
     stream >> tmp >> tmp >> tmp >> card.rect.w >> card.rect.h;
 
     back = loadTexture(backimg);
+    SDL_Texture* shadowBack = loadTexture(backimg);
     front = loadTexture(frontimg);
    
 
     card.texture = back;
+    card.shadowTexture = shadowBack;
 
     // Initialize drawRect based on the random value
 

@@ -29,6 +29,7 @@
     <ClInclude Include="..\include\Presenter.h" />
     <ClInclude Include="..\include\SoundManager.h" />
     <ClInclude Include="..\include\TextCreator.h" />
+    <ClInclude Include="..\include\textures.h" />
     <ClInclude Include="..\include\World.h" />
   </ItemGroup>
   <ItemGroup>
