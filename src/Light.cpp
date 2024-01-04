@@ -34,7 +34,7 @@ void Light::createShadows(SDL_Rect lightPosition, std::vector<Drawable> objectsV
         object.rect = objectsVector[i].rect;
         light.shadow.texture = objectsVector[i].shadowTexture;
         
-        
+        SDL_SetTextureColorMod(light.shadow.texture, 0, 0, 0);
         
 
         int distanceX = lightPosition.x - object.rect.x;
