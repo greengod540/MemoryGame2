@@ -21,6 +21,8 @@ public:
 	static void drawObject(DrawableSrcRect& drawableSrcRect);
 	static void drawObject(Drawable& drawable, int angle);
 	static void drawObject(SDL_Rect rect);
+	static int drawLine(int x1, int y1, int length, int angle);
+
 	
 
 private:

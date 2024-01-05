@@ -17,8 +17,10 @@ public:
 
 	void init();
 	static void createLight(SDL_Rect cast_position, Uint8 r, Uint8 g, Uint8 b, Uint8 strength);
+	static void rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector);
 	static void createShadows(SDL_Rect lightPosition, std::vector<Drawable> objectsVector, std::vector<SDL_Texture*> shadowTextures);
 	static std::vector<Drawable> findObjects(SDL_Rect lightPosition, std::vector<Drawable> objectVector);
+	
 	
 	SDL_Rect rayRect;
 	static Uint8 lightStrength;

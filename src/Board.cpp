@@ -308,7 +308,7 @@ void Board::draw()
 	}
 	
 
-	std::vector<Drawable> shadows = lightManager.findObjects({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, objects);
+
 	if (reset == false) {
 
 		for (int z = 0; z < cards.size(); z++) {
@@ -323,8 +323,7 @@ void Board::draw()
 
 		}
 		lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 128);
-		lightManager.createShadows({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, shadows, textures);
-
+		lightManager.rayTrace({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, objects);
 		
 		
 		

@@ -74,6 +74,21 @@ void Presenter::drawObject(SDL_Rect rect)
 	SDL_RenderDrawRect(m_mainRenderer, &rect);
 }
 
+int Presenter::drawLine(int x1, int y1, int length, int angle)
+{
+	
+	double angleRad = angle * M_PI / 180.0;
+
+	
+	int x2 = x1 + static_cast<int>(length * std::cos(angleRad));
+	int y2 = y1 + static_cast<int>(length * std::sin(angleRad));
+
+	SDL_RenderDrawLine(m_mainRenderer, x1, y1, x2, y2);
+
+	return 0;
+	
+}
+
 void Presenter::improveRenderer()
 {
 	SDL_DisplayMode DM;
