@@ -18,9 +18,9 @@ Presenter presenter1;
 #include <iostream>
 #include <random>
 #include "TextCreator.h"
-#include <textures.h>
+#include <objects.h>
 
-std::vector<SDL_Texture*> textures;
+
 
 static bool allowed = true;
 static const double showCardsDuration = 4.0;
@@ -52,6 +52,7 @@ static bool tryAgainDrawn = false;
 Player player1;
 Player player2;
 SDL_Color text = { 255, 255, 255 };
+
 
 
 
@@ -128,25 +129,11 @@ void Board::tryAgain()
 
 void Board::init()
 {
-	std::vector<SDL_Texture*> textures;
-	
-	food1.texture = loadTexture("food2.bmp");
-	food1.shadowTexture = loadTexture("food2.bmp");
-	food1.rect = {128, 705, 300, 300};
-	Beer2.texture = loadTexture("Beer2.bmp");
-	Beer2.shadowTexture = loadTexture("Beer2.bmp");
-	Beer2.rect = { 989, 0, 200, 200 };
 
-	dragonHead.texture = loadTexture("dragonHead.bmp");
-	dragonHead.shadowTexture = loadTexture("dragonHead.bmp");
-	dragonHead.rect = { 50, 0, 200, 200 };
-	backgroundTable.texture = loadTexture("woodTable.bmp");
-	backgroundTable.shadowTexture = loadTexture("woodTable.bmp");
-	backgroundTable.rect = { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT };
-	background2.texture = loadTexture("medievalBackground.bmp");
-	background2.rect = { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT };
-	background3.texture = loadTexture("medievalBarBackground.bmp");
-	background3.rect = { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT };
+	
+	
+	
+	
 	tryAgainScreen.texture = loadTexture("tryagain3.bmp");
 	tryAgainScreen.rect = { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT };
 	Yes.texture = loadTexture("YES.bmp");
@@ -155,7 +142,7 @@ void Board::init()
 	No.rect = { 700, 700, 200, 200 };
 
 
-
+	
 	std::string configFile = "config\\boardInit.txt";
 
 	std::fstream stream;
@@ -243,19 +230,37 @@ void Board::init()
 	std::uniform_int_distribution<int> backgrounds(1, 3);
 	background = backgrounds(eng1);
 
-	for (int it = 0; it < cards.size(); it++) {
-		objects.push_back(cards[it].card);
+	
+	switch (background) {
+	case 1:
+		createObject(backgroundTable, loadTexture("woodTable.bmp"), { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT }, false);
+		createObject(food1, loadTexture("food2.bmp"), {128, 705, 300, 300}, true);
+		createObject(Beer2, loadTexture("Beer2.bmp"), { 989, 0, 200, 200 }, true);
+		createObject(dragonHead, loadTexture("dragonHead.bmp"), { 50, 0, 200, 200 }, true);
+		
+		
+		
+	
+		
+
+		break;
+
+	case 2:
+		createObject(background2, loadTexture("medievalBackground.bmp"), { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT }, false);
+		break;
+
+	case 3:
+		createObject(background3, loadTexture("medievalBarBackground.bmp"), { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT }, false);
+		break;
 	}
-	if (background == 1) {
-		objects.push_back(Knife);
-		objects.push_back(Beer1);
-		objects.push_back(dragonHead);
-		objects.push_back(food1);
+
+	
+
+
+	for (int i = 0; i < cards.size(); i++) {
+		cards[i].card.shadow_caster = true;
+		objects.push_back(cards[i].card);
 	}
-
-
-
-
 
 
 
@@ -287,41 +292,15 @@ void Board::update() {
 
 void Board::draw()
 {
-	switch(background) {
-	case 1:
-		presenter1.drawObject(backgroundTable);
-		presenter1.drawObject(Knife);
-		presenter1.drawObject(Beer1);
-		presenter1.drawObject(Beer2);
-		presenter1.drawObject(dragonHead);
-		presenter1.drawObject(food1);
-		
-		break;
-
-	case 2:
-		presenter1.drawObject(background2);
-		break;
-
-	case 3:
-		presenter1.drawObject(background3);
-		break;
-	}
+	
 	
 
 
 	if (reset == false) {
-
-		for (int z = 0; z < cards.size(); z++) {
-
-
-
-			cards[z].draw();
-			//lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 255);
-
-			
-			
-
+		for (int y = 0; y < objects.size(); y++) {
+			drawObject(objects[y]);
 		}
+		
 		lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 128);
 		lightManager.rayTrace({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, objects);
 		

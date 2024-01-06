@@ -4,7 +4,6 @@
 #include <fstream>
 #include <SDL.h>
 #include <random>
-#include "textures.h"
 using namespace std;
 
 static string IMG_FOLDER = "img\\";
@@ -92,7 +91,7 @@ struct Drawable
 	SDL_Texture* shadowTexture;
 };
 
-static vector<Drawable> objects;
+
 
 
 struct DrawableSrcRect : Drawable

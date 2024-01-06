@@ -1,5 +1,7 @@
 #include "Engine.h"
+#include "defines.h"
 
+std::vector<Drawable> objects;
 
 
 SDL_Texture* LoadTexture(string imgPath, SDL_Renderer* renderer)
@@ -22,7 +24,6 @@ SDL_Texture* LoadTexture(string imgPath, SDL_Renderer* renderer)
 		
 
 	}
-	textures.push_back(shadowTexture);
 	SDL_FreeSurface(loadingSurface);
 	
 
@@ -68,5 +69,16 @@ bool colliding(SDL_Rect rect1, SDL_Rect rect2, int offsetx, int offsety) {
 bool isPointInsideCircle(int x, int y, int centerX, int centerY, int radius)
 {
 	return ((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY)) <= (radius * radius);
+}
+
+Drawable createObject(Drawable object, SDL_Texture* objectTexture, SDL_Rect rect, bool shadowCast){
+
+
+	object.texture = objectTexture;
+	object.rect = rect;
+	object.shadow_caster = shadowCast;
+	objects.push_back(object);
+	return object;
+
 }
 

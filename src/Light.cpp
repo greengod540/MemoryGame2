@@ -46,7 +46,7 @@ void Light::rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector
             bool collided = false;
 
             for (int z = 0; z < objectsVector.size(); z++) { // vzimam obektite ot objectsVector
-                if (isMouseInRect({ x2, y2 }, objectsVector[z].rect)) {
+                if (isMouseInRect({ x2, y2 }, objectsVector[z].rect) && objectsVector[z].shadow_caster == true) {
                     SDL_SetRenderDrawColor(Presenter::m_mainRenderer, 0, 0, 0, 255); //setvam draw color za borderite na sqnkata
                     std::cout << "Collision detected at (" << x2 << ", " << y2 << ") with object " << z << std::endl;
                     Presenter::drawLine(x2, y2, 700, i); // yes yes draw go brrrrr

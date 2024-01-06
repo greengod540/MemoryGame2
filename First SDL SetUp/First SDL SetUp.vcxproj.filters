@@ -48,7 +48,7 @@
     <ClInclude Include="..\include\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\include\textures.h">
+    <ClInclude Include="..\include\objects.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
