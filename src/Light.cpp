@@ -21,55 +21,51 @@ void Light::init() {
 }
 
 void Light::createLight(SDL_Rect cast_position, Uint8 r, Uint8 g, Uint8 b, Uint8 strength) {
-    SDL_SetRenderDrawBlendMode(Presenter::m_mainRenderer, SDL_BLENDMODE_BLEND);
-    SDL_SetRenderDrawColor(Presenter::m_mainRenderer, r, g, b, strength);
-    SDL_RenderFillRect(Presenter::m_mainRenderer, &cast_position);
-    lightStrength = strength;
+    SDL_SetRenderDrawBlendMode(Presenter::m_mainRenderer, SDL_BLENDMODE_BLEND); //tova beshe lesno za programirane, no puk edvam otkrih kakvo po dqvolite e blendmode
+    SDL_SetRenderDrawColor(Presenter::m_mainRenderer, r, g, b, strength); // easy peasy
+    SDL_RenderFillRect(Presenter::m_mainRenderer, &cast_position); //cast position rectangle go brrr
+    lightStrength = strength; // uzh trqbva da pisha teq komentari za da *Znam* kakvo sum programiral, ne obratnoto
 }
 
-void Light::rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector) { //napravih ray trace prostotiq sushto
+void Light::rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector) {
     const int rayLength = 700;
-    const double angleIncrement = M_PI / 180.0;
+    const double angleIncrement = M_PI / 180.0; // chatgpt e nai velikiq matematik origins
+    const int stepSize = 20; // nqmam nikakva ideq kak tova go opravi tbh
 
-    for (int i = 0; i <= 45; i++) {
-        double angleRad = i * M_PI / 180.0;
+    for (int i = 0; i <= 360; i++) {
+        double angleRad = i * M_PI / 180.0; //chatgpt e nai velikiq matematik 1
 
-        int x1 = lightPosition.x;
-        int y1 = lightPosition.y;
-        //Presenter::drawLine(lightPosition.x, lightPosition.y, rayLength, i);
-        for (int length = 0; length <= rayLength; length++) {
-            int x2 = x1 + static_cast<int>(length * std::cos(angleRad));
-            int y2 = y1 + static_cast<int>(length * std::sin(angleRad));
-            int shadowX = x2;
-            int shadowY = y2;
-            SDL_Rect rayRect = { x2, y2, 1, 1 };
+        int x1 = lightPosition.x; // vzimame posa
+        int y1 = lightPosition.y; // lightpos y beibi
+
+        for (int length = 0; length <= rayLength; length += stepSize) {
+            int x2 = x1 + static_cast<int>(length * std::cos(angleRad)); // vzimame x realno, tui kato x1 e hipotenuza(ili neshto podobno beshe) i angleRad e ugula chrez koito vzimame x-a i negovata dulzhina s cosino
+            int y2 = y1 + static_cast<int>(length * std::sin(angleRad)); //chatgpt e nai velikiq matematik 2 /pone nauchih kakvo e cosinus i sinus, sushtoto kato gore samo che y, tui kato tova e adjacent side i sochi nagore
+            SDL_Rect rayRect = { x2, y2, 1, 1 }; // moq prekrasen rayrect 
 
             bool collided = false;
 
-            for (int z = 0; z < objectsVector.size(); z++) {
-                if (SDL_HasIntersection(&rayRect, &objectsVector[z].rect)) {
-                    SDL_SetRenderDrawColor(Presenter::m_mainRenderer, 0, 0, 0, 255);
-                    shadowX = x2 + static_cast<int>(length * std::cos(angleRad));
-                    shadowY = y2 + static_cast<int>(length * std::sin(angleRad));
-
-                    Presenter::drawLine(shadowX, shadowY, 700, i);
-                    SDL_SetRenderDrawColor(Presenter::m_mainRenderer, 0, 0, 255, 255); 
-                    SDL_Rect shadowRect = { shadowX, shadowY, 50, 50 };
+            for (int z = 0; z < objectsVector.size(); z++) { // vzimam obektite ot objectsVector
+                if (isMouseInRect({ x2, y2 }, objectsVector[z].rect)) {
+                    SDL_SetRenderDrawColor(Presenter::m_mainRenderer, 0, 0, 0, 255); //setvam draw color za borderite na sqnkata
+                    std::cout << "Collision detected at (" << x2 << ", " << y2 << ") with object " << z << std::endl;
+                    Presenter::drawLine(x2, y2, 700, i); // yes yes draw go brrrrr
+                    SDL_SetRenderDrawColor(Presenter::m_mainRenderer, 0, 0, 255, 255);
+                    SDL_Rect shadowRect = { x2, y2, 50, 50 };
                     SDL_RenderFillRect(Presenter::m_mainRenderer, &shadowRect);
                     collided = true;
-                    break;
+                    break; // breakvame che she izmuchime kompa
                 }
             }
 
             if (collided) {
-                break; // tuka breakvame out of loop
+                break; // breakupvame oficialno
             }
-
         }
-
     }
-
 }
+
+
 
 void Light::createShadows(SDL_Rect lightPosition, std::vector<Drawable> objectsVector, std::vector<SDL_Texture*> shadowTextures) { // tova ne znam kak se poluchi
     Drawable object;
