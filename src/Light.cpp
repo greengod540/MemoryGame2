@@ -30,7 +30,7 @@ void Light::createLight(SDL_Rect cast_position, Uint8 r, Uint8 g, Uint8 b, Uint8
 void Light::rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector) {
     const int rayLength = 700;
     const double angleIncrement = M_PI / 180.0; // chatgpt e nai velikiq matematik origins
-    const int stepSize = 20; // nqmam nikakva ideq kak tova go opravi tbh
+    const int stepSize = 45; // nqmam nikakva ideq kak tova go opravi tbh
 
     for (int i = 0; i <= 360; i++) {
         double angleRad = i * M_PI / 180.0; //chatgpt e nai velikiq matematik 1
@@ -39,7 +39,10 @@ void Light::rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector
         int y1 = lightPosition.y; // lightpos y beibi
 
         for (int length = 0; length <= rayLength; length += stepSize) {
-            int x2 = x1 + static_cast<int>(length * std::cos(angleRad)); // vzimame x realno, tui kato x1 e hipotenuza(ili neshto podobno beshe) i angleRad e ugula chrez koito vzimame x-a i negovata dulzhina s cosino
+            int x2 = x1 + static_cast<int>(length * std::cos(angleRad)); // x1 e startov point, s cos(angleRad) namirame vtoriq x, 
+            //umnozhavame go sus length che da go napravime dulug kolkoto length, i x1 go subirame sus vtoriq x che da zapochne ot x1, 
+            //ili neshto podobno, ne mi se doverqvaite
+
             int y2 = y1 + static_cast<int>(length * std::sin(angleRad)); //chatgpt e nai velikiq matematik 2 /pone nauchih kakvo e cosinus i sinus, sushtoto kato gore samo che y, tui kato tova e adjacent side i sochi nagore
             SDL_Rect rayRect = { x2, y2, 1, 1 }; // moq prekrasen rayrect 
 
