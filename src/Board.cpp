@@ -164,19 +164,9 @@ void Board::init()
 
 
 
-	card1.init("config\\card\\cardInit.txt");
-	std::cout << SDL_GetError();
-	card2.init("config\\card\\cardInit2.txt");
-	card3.init("config\\card\\cardInit3.txt");
-	card4.init("config\\card\\cardInit4.txt");
-	card5.init("config\\card\\cardInit5.txt");
-	card6.init("config\\card\\cardInit6.txt");
-	card7.init("config\\card\\cardInit7.txt");
-	card8.init("config\\card\\cardInit8.txt");
-	card9.init("config\\card\\cardInit9.txt");
-	card10.init("config\\card\\cardInit10.txt");
+
 	soundManager.init();
-	cards = { card1, card2, card3, card4, card5, card6, card7, card8, card9, card10 };
+	
 
 	
 
@@ -202,28 +192,7 @@ void Board::init()
 	std::uniform_int_distribution<int> posXDist(300, 800);
 	std::uniform_int_distribution<int> posYDist(0, 700);
 
-	for (int i = 0; i < cards.size(); i++) {
-		bool overlap;
 
-		do {
-			overlap = false;
-			int randomPosX = posXDist(eng);
-			int randomPosY = posYDist(eng);
-
-			SDL_Rect currentCardRect = { randomPosX, randomPosY, 100, 200 };
-
-			for (int j = 0; j < i; j++) {
-				if (SDL_HasIntersection(&currentCardRect, &cards[j].card.rect)) {
-					overlap = true;
-					break;
-				}
-			}
-
-			if (!overlap) {
-				cards[i].card.rect = { randomPosX, randomPosY, 100, 200 };
-			}
-		} while (overlap);
-	}
 
 	std::random_device rd1;
 	std::default_random_engine eng1(rd1());
@@ -256,10 +225,42 @@ void Board::init()
 
 	
 
-
+	card1.init("config\\card\\cardInit.txt");
+	std::cout << SDL_GetError();
+	card2.init("config\\card\\cardInit2.txt");
+	card3.init("config\\card\\cardInit3.txt");
+	card4.init("config\\card\\cardInit4.txt");
+	card5.init("config\\card\\cardInit5.txt");
+	card6.init("config\\card\\cardInit6.txt");
+	card7.init("config\\card\\cardInit7.txt");
+	card8.init("config\\card\\cardInit8.txt");
+	card9.init("config\\card\\cardInit9.txt");
+	card10.init("config\\card\\cardInit10.txt");
+	cards = { card1, card2, card3, card4, card5, card6, card7, card8, card9, card10 };
 	for (int i = 0; i < cards.size(); i++) {
-		cards[i].card.shadow_caster = true;
-		objects.push_back(cards[i].card);
+		bool overlap;
+
+		do {
+			overlap = false;
+			int randomPosX = posXDist(eng);
+			int randomPosY = posYDist(eng);
+
+			SDL_Rect currentCardRect = { randomPosX, randomPosY, 100, 200 };
+
+			for (int j = 0; j < i; j++) {
+				if (SDL_HasIntersection(&currentCardRect, &cards[j].card.rect)) {
+					overlap = true;
+					break;
+				}
+			}
+
+			if (!overlap) {
+				cards[i].card.rect = { randomPosX, randomPosY, 100, 200 };
+			}
+		} while (overlap);
+	}
+	for (int i = 0; i < cards.size(); i++) {
+		createObject(cards[i].card, cards[i].card.texture, cards[i].card.rect, true);
 	}
 
 
@@ -299,7 +300,9 @@ void Board::draw()
 	if (reset == false) {
 		for (int y = 0; y < objects.size(); y++) {
 			drawObject(objects[y]);
+			
 		}
+		
 		
 		lightManager.createLight({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, 255, 255, 255, 128);
 		lightManager.rayTrace({ InputManager::m_mouseCoor.x, InputManager::m_mouseCoor.y, 200, 200 }, objects);
@@ -381,10 +384,6 @@ void Board::resetGame()
 	std::default_random_engine eng(rd());
 	std::uniform_int_distribution<int> posXDist(300, 800);
 	std::uniform_int_distribution<int> posYDist(0, 700);
-	for (int cardsReset = 0; cardsReset < cards.size(); cardsReset++) {
-		cards[cardsReset].show();
-		cards[cardsReset].changeTextureFront();
-	}
 	for (int i = 0; i < cards.size(); i++) {
 		bool overlap;
 
@@ -412,6 +411,34 @@ void Board::resetGame()
 	std::default_random_engine eng1(rd1());
 	std::uniform_int_distribution<int> backgrounds(1, 3);
 	background = backgrounds(eng1);
+	switch (background) {
+	case 1:
+		createObject(backgroundTable, loadTexture("woodTable.bmp"), { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT }, false);
+		createObject(food1, loadTexture("food2.bmp"), { 128, 705, 300, 300 }, true);
+		createObject(Beer2, loadTexture("Beer2.bmp"), { 989, 0, 200, 200 }, true);
+		createObject(dragonHead, loadTexture("dragonHead.bmp"), { 50, 0, 200, 200 }, true);
+
+
+
+
+
+
+		break;
+
+	case 2:
+		createObject(background2, loadTexture("medievalBackground.bmp"), { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT }, false);
+		break;
+
+	case 3:
+		createObject(background3, loadTexture("medievalBarBackground.bmp"), { 0, 0, Presenter::m_SCREEN_WIDTH, Presenter::m_SCREEN_HEIGHT }, false);
+		break;
+	}
+
+
+	for (int i = 0; i < cards.size(); i++) {
+		cards[i].show();
+		updateObject(cards[i].card, true);
+	}
 
 	moves = 0;
 	mistakes = 0;
@@ -468,9 +495,11 @@ void Board::handleCardSelection(int cardIndex)
 	if (mousePressed == 1) {
 		firstClickIndex = cardIndex;
 		cards[firstClickIndex].changeTextureBack();
+		updateObject(cards[firstClickIndex].card, true);
 	}
 	else if (mousePressed == 2) {
 		secondClickIndex = cardIndex;
+		updateObject(cards[secondClickIndex].card, true);
 		if (firstClickIndex != secondClickIndex) {
 			cards[secondClickIndex].changeTextureBack();
 
@@ -482,6 +511,8 @@ void Board::handleCardSelection(int cardIndex)
 				cards[secondClickIndex].hide();
 				ids.erase(firstClickIndex);
 				ids.erase(secondClickIndex);
+				updateObject(cards[firstClickIndex].card, false);
+				updateObject(cards[secondClickIndex].card, false);
 				mousePressed = 0;
 			}
 
@@ -490,6 +521,8 @@ void Board::handleCardSelection(int cardIndex)
 				soundManager.playSound(CARDS_NOT_SAME);
 				cards[firstClickIndex].changeTextureFront();
 				cards[secondClickIndex].changeTextureFront();
+				updateObject(cards[firstClickIndex].card, true);
+				updateObject(cards[secondClickIndex].card, true);
 				mousePressed = 0;
 			}
 		}

@@ -82,3 +82,40 @@ Drawable createObject(Drawable object, SDL_Texture* objectTexture, SDL_Rect rect
 
 }
 
+void objectDestroyer(Drawable object)
+{
+	SDL_DestroyTexture(object.texture);
+	object.texture = nullptr;
+	int indexToRemove = NULL;
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i].rect.x == object.rect.x && objects[i].rect.y == object.rect.y) {
+			indexToRemove = i;
+			break;
+		}
+	}
+	if (indexToRemove != NULL) {
+		objects.erase(objects.begin() + indexToRemove);
+	}
+	
+
+
+}
+
+void updateObject(Drawable object, bool shadowCast)
+{
+	int indexToRemove = NULL;
+	for (int i = 0; i < objects.size(); i++) {
+		if (objects[i].rect.x == object.rect.x && objects[i].rect.y == object.rect.y) {
+			indexToRemove = i;
+			break;
+		}
+	}
+	if (indexToRemove != NULL) {
+		objects.erase(objects.begin() + indexToRemove);
+	}
+	createObject(object, object.texture, object.rect, shadowCast);
+
+
+
+}
+

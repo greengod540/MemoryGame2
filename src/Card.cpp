@@ -102,9 +102,11 @@ void Card::setCardID(int setID)
 void Card::hide()
 {
     isVisible = false;
+    card.texture = nullptr;
 }
 
 void Card::show()
 {
     isVisible = true;
+    card.texture = back;
 }
