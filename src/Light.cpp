@@ -52,22 +52,10 @@ void Light::rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector
                 if (isMouseInRect({ x2, y2 }, objectsVector[z].rect) && objectsVector[z].shadow_caster == true) {
                     int x3 = x2;
                     int y3 = y2;
-                    
+                    int centerX = objectsVector[z].rect.x + objectsVector[z].rect.w;
+                    int centerY = objectsVector[z].rect.y + objectsVector[z].rect.h;
                     SDL_SetRenderDrawColor(Presenter::m_mainRenderer, 0, 0, 0, 255);//setvam draw color za borderite na sqnkata
-                    if (x1 <= objectsVector[z].rect.x) {
-                        x3 = x2 + objectsVector[z].rect.x;
-                    }
-                    else {
-                        x3 = x2 - objectsVector[z].rect.w;
-                    }
-                    if (y1 <= objectsVector[z].rect.y) {
-                        y3 = y2 + objectsVector[z].rect.h;
-                    }
-                    else {
-                        y3 = y2 - objectsVector[z].rect.h;
-                    }
-                    
-                    Presenter::drawLine(x3, y3, rayLength, i);
+                    Presenter::drawLine(centerX, centerY , rayLength, i);
                     
                     // yes yes draw go brrrrr
                     collided = true;
