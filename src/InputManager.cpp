@@ -16,6 +16,12 @@ InputManager::~InputManager()
 
 }
 
+void InputManager::setMouseMultiply(float2 multyplier)
+{
+	m_mouseMultiply.x = multyplier.x;
+	m_mouseMultiply.y = multyplier.y;
+}
+
 void InputManager::handleInput()
 {
 	m_mouseIsPressed = false;
@@ -28,7 +34,8 @@ void InputManager::handleInput()
 		case SDL_MOUSEMOTION:
 			SDL_GetMouseState(&(m_mouseCoor.x), &(m_mouseCoor.y));
 
-			m_mouseCoor *= m_mouseMultiply;
+			m_mouseCoor.x *= m_mouseMultiply.x;
+			m_mouseCoor.y *= m_mouseMultiply.y;
 
 			break;
 		case SDL_MOUSEBUTTONDOWN:
@@ -41,11 +48,6 @@ void InputManager::handleInput()
 	}
 
 	m_keyboardState = SDL_GetKeyboardState(NULL);
-}
-
-void InputManager::setMouseMultiply(int2 multyplier)
-{
-	m_mouseMultiply = multyplier;
 }
 
 bool InputManager::isMousePressed()

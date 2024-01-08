@@ -9,16 +9,16 @@ SDL_Renderer* Presenter::m_mainRenderer = nullptr;
 int Presenter::m_SCREEN_WIDTH = 0;
 int Presenter::m_SCREEN_HEIGHT = 0;
 
+
 void Presenter::init()
 {
-	
+	m_SCREEN_WIDTH = 1920;
+	m_SCREEN_HEIGHT = 1080;
 
 	SDL_Init(SDL_INIT_EVERYTHING);
-	
-	m_mainWindow = SDL_CreateWindow("SDL_Template",
-		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 1366, 768, 0);
 
-	
+	m_mainWindow = SDL_CreateWindow("SDL_Template",
+		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_SCREEN_WIDTH, m_SCREEN_HEIGHT, 0);
 
 	m_mainRenderer = SDL_CreateRenderer(m_mainWindow, -1, SDL_RENDERER_PRESENTVSYNC);
 
@@ -96,24 +96,23 @@ void Presenter::improveRenderer()
 
 	auto desktopWidth = DM.w;
 	auto desktopHeight = DM.h;
-	m_SCREEN_HEIGHT = DM.h;
-	m_SCREEN_WIDTH = DM.w;
 
-	int2 mouseMultiply;
-
-	mouseMultiply.x = m_SCREEN_WIDTH / desktopWidth;
-	mouseMultiply.y = m_SCREEN_HEIGHT / desktopHeight;
-
-	world.m_inputManager.setMouseMultiply(mouseMultiply);
+	float2 mouseMultiply;
+	float x = (double)m_SCREEN_WIDTH / (double)desktopWidth;
+	float y = (double)m_SCREEN_HEIGHT / (double)desktopHeight;
+	mouseMultiply.x = x;
+	mouseMultiply.y = y;
+	std::cout << mouseMultiply.x << " " << mouseMultiply.y;
 
 	if (SDL_SetWindowFullscreen(m_mainWindow, SDL_WINDOW_FULLSCREEN_DESKTOP) < 0)
 	{
 		cout << "SDL Renderer improve failed!" << SDL_GetError();
 	}
 
+	world.m_inputManager.setMouseMultiply(mouseMultiply);
+
 	SDL_RenderSetLogicalSize(m_mainRenderer, m_SCREEN_WIDTH, m_SCREEN_HEIGHT);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-
 }
 
 SDL_Texture* loadTexture(string path)

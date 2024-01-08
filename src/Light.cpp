@@ -30,7 +30,7 @@ void Light::createLight(SDL_Rect cast_position, Uint8 r, Uint8 g, Uint8 b, Uint8
 void Light::rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector) {
     const int rayLength = 700;
     const double angleIncrement = M_PI / 180.0; // chatgpt e nai velikiq matematik origins
-    const int stepSize = 45; // nqmam nikakva ideq kak tova go opravi tbh
+    const int stepSize = 25; // nqmam nikakva ideq kak tova go opravi tbh
 
     for (int i = 0; i <= 360; i++) {
         double angleRad = i * M_PI / 180.0; //chatgpt e nai velikiq matematik 1
@@ -44,22 +44,39 @@ void Light::rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector
             //ili neshto podobno, ne mi se doverqvaite
 
             int y2 = y1 + static_cast<int>(length * std::sin(angleRad)); //chatgpt e nai velikiq matematik 2 /pone nauchih kakvo e cosinus i sinus, sushtoto kato gore samo che y, tui kato tova e adjacent side i sochi nagore
-            SDL_Rect rayRect = { x2, y2, 1, 1 }; // moq prekrasen rayrect 
+            SDL_Rect rayRect = { x2, y2, 50, 50}; // moq prekrasen rayrect 
 
             bool collided = false;
 
             for (int z = 0; z < objectsVector.size(); z++) { // vzimam obektite ot objectsVector
                 if (isMouseInRect({ x2, y2 }, objectsVector[z].rect) && objectsVector[z].shadow_caster == true) {
-                    SDL_SetRenderDrawColor(Presenter::m_mainRenderer, 0, 0, 0, 255); //setvam draw color za borderite na sqnkata
-                    std::cout << "Collision detected at (" << x2 << ", " << y2 << ") with object " << z << std::endl;
-                    Presenter::drawLine(x2, y2, 700, i); // yes yes draw go brrrrr
-                    SDL_SetRenderDrawColor(Presenter::m_mainRenderer, 0, 0, 255, 255);
-                    SDL_Rect shadowRect = { x2, y2, 50, 50 };
-                    SDL_RenderFillRect(Presenter::m_mainRenderer, &shadowRect);
+                    int x3 = x2;
+                    int y3 = y2;
+                    
+                    SDL_SetRenderDrawColor(Presenter::m_mainRenderer, 0, 0, 0, 255);//setvam draw color za borderite na sqnkata
+                    if (x1 <= objectsVector[z].rect.x) {
+                        x3 = x2 + objectsVector[z].rect.x;
+                    }
+                    else {
+                        x3 = x2 - objectsVector[z].rect.w;
+                    }
+                    if (y1 <= objectsVector[z].rect.y) {
+                        y3 = y2 + objectsVector[z].rect.h;
+                    }
+                    else {
+                        y3 = y2 - objectsVector[z].rect.h;
+                    }
+                    
+                    Presenter::drawLine(x3, y3, rayLength, i);
+                    
+                    // yes yes draw go brrrrr
                     collided = true;
                     break; // breakvame che she izmuchime kompa
                 }
+
             }
+            
+            
 
             if (collided) {
                 break; // breakupvame oficialno

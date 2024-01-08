@@ -13,14 +13,14 @@ public:
 	static const Uint8* m_keyboardState;
 
 	void handleInput();
-	void setMouseMultiply(int2 multyplier);
+	void setMouseMultiply(float2 multyplier);
 
 	static bool isMousePressed();
 
 private:
 	SDL_Event m_event;
 
-	int2 m_mouseMultiply;
+	float2 m_mouseMultiply;
 
 	static bool m_mouseIsPressed;
 };

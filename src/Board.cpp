@@ -293,6 +293,7 @@ void Board::update() {
 
 void Board::draw()
 {
+	std::cout << InputManager::m_mouseCoor.x << " " << InputManager::m_mouseCoor.y << endl;
 	
 	
 
@@ -357,7 +358,9 @@ void Board::draw()
 void Board::destroy()
 {
 	//player1.destroyPlayer();
-	SDL_DestroyTexture(m_background);
+	for (int i = 0; i < objects.size(); i++) {
+		objectDestroyer(objects[i]);
+	}
 
 }
 
@@ -554,6 +557,7 @@ void Board::handleInput()
 	}
 	else if (isMouseInRect(InputManager::m_mouseCoor, No.rect) && InputManager::isMousePressed() && reset == true) {
 		soundManager.playSound(QUIT);
+		destroy();
 		SDL_Quit();
 		exit(1);
 
