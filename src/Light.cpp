@@ -38,33 +38,42 @@ void Light::rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector
         int x1 = lightPosition.x; // vzimame posa
         int y1 = lightPosition.y; // lightpos y beibi
 
-        for (int length = 0; length <= rayLength; length += stepSize) {
-            int x2 = x1 + static_cast<int>(length * std::cos(angleRad)); // x1 e startov point, s cos(angleRad) namirame vtoriq x, 
-            //umnozhavame go sus length che da go napravime dulug kolkoto length, i x1 go subirame sus vtoriq x che da zapochne ot x1, 
-            //ili neshto podobno, ne mi se doverqvaite
+        // CHATGPT NAI VELIKIQ MATEMATIK NZ
+        double normalizedX = std::cos(angleRad);
+        double normalizedY = std::sin(angleRad);
 
-            int y2 = y1 + static_cast<int>(length * std::sin(angleRad)); //chatgpt e nai velikiq matematik 2 /pone nauchih kakvo e cosinus i sinus, sushtoto kato gore samo che y, tui kato tova e adjacent side i sochi nagore
-            SDL_Rect rayRect = { x2, y2, 50, 50}; // moq prekrasen rayrect 
+        for (int length = 0; length <= rayLength; length += stepSize) {
+            int x2 = x1 + static_cast<int>(length * normalizedX);
+            int y2 = y1 + static_cast<int>(length * normalizedY);
+
+            SDL_Rect rayRect = { x2, y2, 50, 50 }; // moq prekrasen rayrect 
 
             bool collided = false;
 
             for (int z = 0; z < objectsVector.size(); z++) { // vzimam obektite ot objectsVector
                 if (isMouseInRect({ x2, y2 }, objectsVector[z].rect) && objectsVector[z].shadow_caster == true) {
-                    int x3 = x2;
-                    int y3 = y2;
-                    int centerX = objectsVector[z].rect.x + objectsVector[z].rect.w;
-                    int centerY = objectsVector[z].rect.y + objectsVector[z].rect.h;
+                    SDL_Point linePoint = { x2, y2 };
+                    int centerX = objectsVector[z].rect.x + objectsVector[z].rect.w / 2;
+                    int centerY = objectsVector[z].rect.y + objectsVector[z].rect.h / 2;
+
+                    // CHAT GPT NAI VELIKIQ MATEMATIK 5
+                    int distanceX = linePoint.x - centerX;
+                    int distanceY = linePoint.y - centerY;
+                    double distance = std::hypot(distanceX, distanceY);
+
+                    // CHAT GPT NAI VELIKIQ MATEMATIK 6
+                    int intersectionX = centerX + static_cast<int>(2 * distance * normalizedX);
+                    int intersectionY = centerY + static_cast<int>(2 * distance * normalizedY);
+
                     SDL_SetRenderDrawColor(Presenter::m_mainRenderer, 0, 0, 0, 255);//setvam draw color za borderite na sqnkata
-                    Presenter::drawLine(centerX, centerY , rayLength, i);
-                    
+
+                    Presenter::drawLine(intersectionX, intersectionY, 700, i);
+
                     // yes yes draw go brrrrr
                     collided = true;
                     break; // breakvame che she izmuchime kompa
                 }
-
             }
-            
-            
 
             if (collided) {
                 break; // breakupvame oficialno
@@ -72,6 +81,7 @@ void Light::rayTrace(SDL_Rect lightPosition, std::vector<Drawable> objectsVector
         }
     }
 }
+
 
 
 
