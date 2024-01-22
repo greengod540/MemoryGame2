@@ -4,14 +4,26 @@
 #include <fstream>
 #include <SDL.h>
 #include <random>
+#include <vector>
+#include <functional>
 using namespace std;
 
 static string IMG_FOLDER = "img\\";
+static string PLAYER_FOLDER = "player\\";
 static string CONFIG_FOLDER = "config\\";
 static string SOUND_FOLDER = "sound\\";
-static string CARD_FOLDER = "card\\";
 static string FONT_FOLDER = "font\\";
-
+static string DIALOGUE_FOLDER = "Dialogue\\";
+static string BACKGROUND_FOLDER = "Backgrounds\\";
+static bool dialogue_engaged = false;
+static std::vector<std::function<void()>> levels;
+static bool isLevelFinished = false;
+static string INTERIOR_FOLDER = "Interiors\\";
+static int tech = 2;							
+static int Speech = 5;
+static int Strength = 2;
+static int Sneak = 2;
+static bool isRobotTriggered = false;
 
 struct int2
 {
@@ -162,6 +174,12 @@ struct Drawable
 	SDL_Texture* shadowTexture;
 };
 
+struct Animation
+{
+	Drawable object;
+	std::vector<SDL_Texture*> animation;
+};
+
 
 
 
@@ -172,14 +190,7 @@ struct DrawableSrcRect : Drawable
 
 enum SOUND
 {
-
-	BACKGROUND_MUSIC,
-	PLAYER_COLLISION,
-	CARDS_SAME,
-	CARDS_NOT_SAME,
-	SUCCESS,
-	QUIT,
-	BACKGROUND2
+	ALARM
 
 
 };

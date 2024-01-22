@@ -1,18 +1,20 @@
 #include "TextCreator.h"
 #include "Presenter.h"
+#include <defines.h>
 
 Drawable Text_Creator::text1;
 
 void Text_Creator::TextCreate(const char* font, int size, int x, int y, int w, int h, const char* text, SDL_Color color)
 {
 	TTF_Init();
+	TTF_GetError();
 	TTF_Font* Sans = TTF_OpenFont(font, size);
 	if (!Sans) {
 		std::cerr << "Failed to load font! SDL_ttf Error: " << TTF_GetError() << std::endl;
 		// Handle the error
 	}
 
-
+	TTF_GetError();
 	
 
 	// this is the color in rgb format,
@@ -23,8 +25,8 @@ void Text_Creator::TextCreate(const char* font, int size, int x, int y, int w, i
 	// as TTF_RenderText_Solid could only be used on
 	// SDL_Surface then you have to create the surface first
 	SDL_Surface* surfaceMessage =
-		TTF_RenderText_Solid(Sans, text, color);
-
+		TTF_RenderText_Blended_Wrapped(Sans, text, color, w);
+	TTF_GetError();
 	if (!surfaceMessage) {
 		std::cerr << "Failed to create text surface! SDL_ttf Error: " << TTF_GetError() << std::endl;
 		// Handle the error
@@ -39,7 +41,7 @@ void Text_Creator::TextCreate(const char* font, int size, int x, int y, int w, i
 	Message_rect.w = w; // controls the width of the rect
 	Message_rect.h = h; 
 	text1.rect = Message_rect;// controls the height of the rect
-
+	TTF_GetError();
 	// (0,0) is on the top left of the window/screen,
 	// think a rect as the text's box,
 	// that way it would be very simple to understand
@@ -51,7 +53,9 @@ void Text_Creator::TextCreate(const char* font, int size, int x, int y, int w, i
 	// the crop size (you can ignore this if you don't want
 	// to dabble with cropping), and the rect which is the size
 	// and coordinate of your texture
+	TTF_GetError();
 	Presenter::drawObject(text1);
+	TTF_GetError();
 	SDL_FreeSurface(surfaceMessage);
 	SDL_DestroyTexture(text1.texture);
 }

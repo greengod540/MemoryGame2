@@ -19,29 +19,39 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\Animator.h" />
     <ClInclude Include="..\include\Board.h" />
     <ClInclude Include="..\include\Card.h" />
     <ClInclude Include="..\include\defines.h" />
+    <ClInclude Include="..\include\DialogueTree.h" />
     <ClInclude Include="..\include\Engine.h" />
     <ClInclude Include="..\include\InputManager.h" />
+    <ClInclude Include="..\include\LevelCounter.h" />
+    <ClInclude Include="..\include\LevelLoader.h" />
     <ClInclude Include="..\include\Light.h" />
     <ClInclude Include="..\include\Player.h" />
     <ClInclude Include="..\include\Presenter.h" />
     <ClInclude Include="..\include\SoundManager.h" />
+    <ClInclude Include="..\include\TextBox.h" />
     <ClInclude Include="..\include\TextCreator.h" />
     <ClInclude Include="..\include\objects.h" />
     <ClInclude Include="..\include\World.h" />
+    <ClInclude Include="LevelCounter.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Animator.cpp" />
     <ClCompile Include="..\src\Board.cpp" />
     <ClCompile Include="..\src\Card.cpp" />
+    <ClCompile Include="..\src\DialogueTree.cpp" />
     <ClCompile Include="..\src\Engine.cpp" />
     <ClCompile Include="..\src\InputManager.cpp" />
+    <ClCompile Include="..\src\LevelLoader.cpp" />
     <ClCompile Include="..\src\Light.cpp" />
     <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Player.cpp" />
     <ClCompile Include="..\src\Presenter.cpp" />
     <ClCompile Include="..\src\SoundManager.cpp" />
+    <ClCompile Include="..\src\TextBox.cpp" />
     <ClCompile Include="..\src\TextCreator.cpp" />
     <ClCompile Include="..\src\World.cpp" />
   </ItemGroup>

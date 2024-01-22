@@ -16,6 +16,8 @@ public:
 	void setMouseMultiply(float2 multyplier);
 
 	static bool isMousePressed();
+	static bool isLMousePressed();
+	static bool isRMousePressed();
 
 private:
 	SDL_Event m_event;
@@ -23,6 +25,7 @@ private:
 	float2 m_mouseMultiply;
 
 	static bool m_mouseIsPressed;
+	static bool m_mouseRIsPressed;
 };
 
 bool isAnyKeyPressed();

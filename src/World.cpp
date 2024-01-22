@@ -25,7 +25,6 @@ void World::run()
     m_presenter.draw();
     m_inputManager.handleInput();
 
-    m_board.update();
     m_board.draw();
     m_board.handleInput();
     

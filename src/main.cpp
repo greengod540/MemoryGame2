@@ -10,7 +10,10 @@ int main(int argc, char* argv[])
 
 	while(world.isRunning())
 	{
+
 		world.run();
+
+		
 	}
 
 	return 0;

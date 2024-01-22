@@ -11,14 +11,8 @@ public:
 	void init();
 	static void playSound(SOUND sound);
 	void destroy();
+	static Mix_Chunk* Alarm;
 
 
-private:
-	static Mix_Chunk* m_backgroundMusic;
-	static Mix_Chunk* m_playerColl;
-	static Mix_Chunk* cardsSame;
-	static Mix_Chunk* cardsNotSame;
-	static Mix_Chunk* Success;
-	static Mix_Chunk* Quit;
-	static Mix_Chunk* background2;
+
 };

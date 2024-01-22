@@ -1,4 +1,0 @@
-Player_Image: X.bmp
-Player_Rect: 200 200 100 100
-Move_Keys: 26 4 22 7
-Speed: 20

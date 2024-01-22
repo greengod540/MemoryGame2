@@ -4,7 +4,6 @@
 #include <iostream>
 #include <algorithm>
 
-#include <unordered_set>
 
 Light light;
 Uint8 Light::lightStrength;
@@ -101,7 +100,7 @@ void Light::createShadows(SDL_Rect lightPosition, std::vector<Drawable> objectsV
 
 
 
-        Presenter::drawObject(light.shadow, interpolatedAngle);
+            
     }
 }
 

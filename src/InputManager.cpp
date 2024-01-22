@@ -1,6 +1,7 @@
 #include "InputManager.h"
 
 bool InputManager::m_mouseIsPressed = bool();
+bool InputManager::m_mouseRIsPressed = bool();
 
 int2 InputManager::m_mouseCoor = int2();
 
@@ -25,7 +26,7 @@ void InputManager::setMouseMultiply(float2 multyplier)
 void InputManager::handleInput()
 {
 	m_mouseIsPressed = false;
-
+	m_mouseRIsPressed = false;
 	//Events for the mouse
 	while (SDL_PollEvent(&m_event))
 	{
@@ -43,6 +44,9 @@ void InputManager::handleInput()
 			{
 				m_mouseIsPressed = true;
 			}
+			else if (m_event.button.button == SDL_BUTTON_RIGHT) {
+				m_mouseRIsPressed = true;		
+			}
 			break;
 		}
 	}
@@ -53,6 +57,11 @@ void InputManager::handleInput()
 bool InputManager::isMousePressed()
 {
 	return m_mouseIsPressed;
+}
+
+bool InputManager::isRMousePressed()
+{
+	return m_mouseRIsPressed;
 }
 
 bool isAnyKeyPressed()

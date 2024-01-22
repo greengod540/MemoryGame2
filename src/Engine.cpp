@@ -11,16 +11,16 @@ SDL_Texture* LoadTexture(string imgPath, SDL_Renderer* renderer)
 	SDL_Surface* loadingSurface = SDL_LoadBMP(tmpImg.c_str());
 
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, loadingSurface);
-	SDL_Texture* shadowTexture = SDL_CreateTextureFromSurface(renderer, loadingSurface);
 
 	if (texture == nullptr)
 	{
+		std::cerr << "CANNOT FIND TEXTURE!!!!!!" << " " << imgPath << endl;
+		std::cout << SDL_GetError();
 		tmpImg = "img\\Null.bmp";
 
 		loadingSurface = SDL_LoadBMP(tmpImg.c_str());
 
 		texture = SDL_CreateTextureFromSurface(renderer, loadingSurface);
-		shadowTexture = SDL_CreateTextureFromSurface(renderer, loadingSurface);
 		
 
 	}
@@ -89,12 +89,11 @@ bool isPointInsideCircle(int x, int y, int centerX, int centerY, int radius)
 	return ((x - centerX) * (x - centerX) + (y - centerY) * (y - centerY)) <= (radius * radius);
 }
 
-Drawable createObject(Drawable object, SDL_Texture* objectTexture, SDL_Rect rect, bool shadowCast){
+Drawable createObject(Drawable object, SDL_Texture* objectTexture, SDL_Rect rect){
 
 
 	object.texture = objectTexture;
 	object.rect = rect;
-	object.shadow_caster = shadowCast;
 	objects.push_back(object);
 	return object;
 
@@ -131,33 +130,15 @@ void updateObject(Drawable object, bool shadowCast)
 	if (indexToRemove != NULL) {
 		objects.erase(objects.begin() + indexToRemove);
 	}
-	createObject(object, object.texture, object.rect, shadowCast);
+	createObject(object, object.texture, object.rect);
 
 
 
 }
 
-bool Timer(int durationInSeconds)
-{
-	auto duration = std::chrono::seconds(durationInSeconds);
 
-	// Get the current time point
-	auto start = std::chrono::steady_clock::now();
 
-	// Calculate the end time point
-	auto end = start + duration;
 
-	// Main loop
-	while (std::chrono::steady_clock::now() < end) {
-		// Your code here
 
-		// Sleeping for a short duration to avoid high CPU usage
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
-	}
 
-	std::cout << "Timer expired!\n";
-
-	// Return true indicating that the timer has expired
-	return true;
-}
 

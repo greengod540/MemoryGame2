@@ -1,0 +1,7 @@
+player one
+player two
+gugu you
+gaga you too
+Option: haha <file playerthree.txt
+Option: ohio rizz
+Option: ohio <file playertwo.txt

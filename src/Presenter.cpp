@@ -63,11 +63,12 @@ void Presenter::drawObject(DrawableSrcRect& drawableSrcRect)
 	
 }
 
-void Presenter::drawObject(Drawable& drawable, int angle) {
+void Presenter::drawObject(Drawable& drawable, int angle, SDL_RendererFlip flip) {
 
-	SDL_RenderCopyEx(Presenter::m_mainRenderer, drawable.texture, nullptr, &drawable.rect, angle, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(m_mainRenderer, drawable.texture, nullptr, &drawable.rect, angle, nullptr, flip);
 
 }
+
 
 void Presenter::drawObject(SDL_Rect rect)
 {
@@ -102,7 +103,6 @@ void Presenter::improveRenderer()
 	float y = (double)m_SCREEN_HEIGHT / (double)desktopHeight;
 	mouseMultiply.x = x;
 	mouseMultiply.y = y;
-	std::cout << mouseMultiply.x << " " << mouseMultiply.y;
 
 	if (SDL_SetWindowFullscreen(m_mainWindow, SDL_WINDOW_FULLSCREEN_DESKTOP) < 0)
 	{

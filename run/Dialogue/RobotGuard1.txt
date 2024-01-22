@@ -1,0 +1,5 @@
+Hello, citizen. Do you have an invite?
+
+Option:[Technology > 3] Hack the robot <biggerThan Tech 3 RobotGuard2.txt RobotGuard3.txt
+Option:[Speech > 3] If this statement is false, then it must be true, if this statement is true it must be false, and vice versa. <biggerThan Speech 3 RobotGuard5.txt RobotGuard6.txt
+Option: I dont have an invite <quit
